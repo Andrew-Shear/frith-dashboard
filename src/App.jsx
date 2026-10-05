@@ -53,7 +53,8 @@ function App() {
 
     //fetch 3d printer queue data
     // setPrints(removeEmpties(PrinterData)) //dummy data
-    fetch("http://localhost:3100/printer",  { signal: AbortSignal.timeout(1000*60*abort_time) }).then(res => {
+    // http://localhost:3100/printer
+    fetch("https://script.google.com/macros/s/AKfycbyN22oZdeTkunq8VZRNIK8ehjFLZPHbeikhVhzEqe5L7ZJEzlcMTVXuU5R1KMX714J5/exec",  { signal: AbortSignal.timeout(1000*60*abort_time) }).then(res => {
       if (res.status >= 400) {
         throw new Error("Server responds with error!");
       }
@@ -67,7 +68,7 @@ function App() {
 
     //fetch capacity data
     // setCapacityData(CapacityData) //dummy data
-    fetch("http://localhost:3100/attendance",  { signal: AbortSignal.timeout(1000*60*abort_time) }).then(res => {
+    fetch("http://192.168.2.102:1254/attendance",  { signal: AbortSignal.timeout(1000*60*abort_time) }).then(res => {
       if (res.status >= 400) {
         throw new Error("Server responds with error!");
       }

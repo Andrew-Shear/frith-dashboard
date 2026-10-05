@@ -15,7 +15,7 @@ const class_old = "course_109922";
 const class_old2 = "course_99575";
 const class_old3 = "course_121352";
 const class_ula = "course_162912"; //test server
-const class_production = "course_180929"; //frith F23
+const class_production = "course_239650"; //frith F26
 
 const class_id = class_production;
 
