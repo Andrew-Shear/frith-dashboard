@@ -53,7 +53,6 @@ function App() {
 
     //fetch 3d printer queue data
     // setPrints(removeEmpties(PrinterData)) //dummy data
-    // http://localhost:3100/printer
     fetch("https://script.google.com/macros/s/AKfycbyN22oZdeTkunq8VZRNIK8ehjFLZPHbeikhVhzEqe5L7ZJEzlcMTVXuU5R1KMX714J5/exec",  { signal: AbortSignal.timeout(1000*60*abort_time) }).then(res => {
       if (res.status >= 400) {
         throw new Error("Server responds with error!");

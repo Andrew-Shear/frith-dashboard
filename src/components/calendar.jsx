@@ -22,6 +22,8 @@ const class_id = class_production;
 const url1 = "http://localhost:3100/canvas-set"
 const url2 = "http://localhost:3100/canvas-get"
 
+const url_group = "http://localhost:3100/canvas-group"
+
 const Calendar = ({ className, data, date, operatingHours }) => {
     const [appointments, setAppointments] = useState([])
     const ref = useRef();
@@ -35,8 +37,18 @@ const Calendar = ({ className, data, date, operatingHours }) => {
     catch (e) { }
 
     useEffect(() => {
+        let cancelled = false
+        getAppointments(data).then(byGroup => {
+            if (!cancelled && byGroup) {
+                setAppointments(sortByDays(byGroup, date, 3))
+            }
+        })
+        return () => { cancelled = true } // ignore results from stale refreshes
+}, [data])
+
+    /*useEffect(() => {
         getAppointments(data, date, 3, setAppointments);
-    }, [data])
+    }, [data])*/
 
     return (
         <div className={className} ref={ref} id="calendar-main">
@@ -64,8 +76,29 @@ const Calendar = ({ className, data, date, operatingHours }) => {
     )
 }
 
+// returns { groupID: [appointments] }, or null if any request failed
+const getAppointments = async (data) => {
+    const ids = [...new Set(
+        data.filter(d => d.context_codes.includes(class_id)).map(d => d.id)
+    )]
+
+    try {
+        const results = await Promise.all(ids.map(async (id) => {
+            const res = await fetch(`${url_group}/${id}`)
+            if (!res.ok) throw new Error(`group ${id} failed`)
+            const json = await res.json()
+            return [id, json.appointments ?? []]
+        }))
+        return Object.fromEntries(results)
+    } catch (e) {
+        console.log(e)
+        return null // keep showing the last good calendar
+    }
+}
+
+
 //returns a dictionary of all the appointments grouped by groupID
-const getAppointments = (data, date, numDays, TEST) => {
+/*const getAppointments = (data, date, numDays, TEST) => {
     const apptsByGroup = {}
     data.map((d) => {
         if (d.context_codes.includes(class_id))
@@ -99,7 +132,7 @@ const getAppointments = (data, date, numDays, TEST) => {
     })
 
     return false //failed if we get here
-}
+}*/
 
 /**
  * Returns a dictionary of all meetings belonging to a day
@@ -117,7 +150,7 @@ const sortByDays = (data, today, numDays, TEST) => {
 
     keys.forEach((key, index) => {
         // console.log(data[key]);
-        // if (data[key].length) {
+        if (data[key].length) {
             data[key].forEach((e) => {
                 // console.log(e.start_at)
                 const test = new Date(e.start_at)
@@ -131,7 +164,7 @@ const sortByDays = (data, today, numDays, TEST) => {
                     }
                 }
             })
-        // }
+        }
     })
 
     // const test = new Date(today)
@@ -139,7 +172,7 @@ const sortByDays = (data, today, numDays, TEST) => {
     // console.log(test)
     // console.log(finalArray)
 
-    TEST(finalArray) //lol I passed the setState function here... shhhhh don't tell my react teacher
+    //TEST(finalArray) //lol I passed the setState function here... shhhhh don't tell my react teacher
 
     return finalArray
 }

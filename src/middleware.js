@@ -15,7 +15,7 @@ const canvas_api_key = apiKeys.canvas
 const app = express()
 app.use(express.json())
 
-let groupIDs = []
+//let groupIDs = []
 
 const corsOptions = {
     origin: (origin, callback) => {
@@ -25,19 +25,30 @@ const corsOptions = {
 app.options('*', cors(corsOptions))
 app.use(cors())
 
+app.get('/canvas-group/:id', cors(corsOptions), (req, res) => {
+    const request_url = `https://vt.instructure.com/api/v1/appointment_groups/${encodeURIComponent(req.params.id)}?access_token=${canvas_api_key}&include_past_appointments=true&scope=manageable&per_page=1000&page=1`
+    req.pipe(request(request_url, function (error) {
+        if (error !== null) {
+            console.log("ERROR: canvas retrieval error")
+            if (!res.headersSent) res.status(400).send({ message: 'error' })
+        }
+    })).pipe(res)
+})
+
 app.use('/canvas-all', cors(corsOptions), (req, res) => {
-    groupIDs = []
+    //groupIDs = []
     // console.log("reset id list")
     const request_url = `https://vt.instructure.com/api/v1/appointment_groups/?access_token=${canvas_api_key}&include_past_appointments=true&scope=manageable&per_page=1000&page=1`
     req.pipe(request(request_url, function (error, response, body) {
         if (error !== null) {
+	        console.log(error)
             console.log("ERROR: canvas retrieval error")
-            res.status(400).send({ message: 'error' })
+            if (!res.headersSent) res.status(400).send({ message: 'error' })
         }
     })).pipe(res)
 });
 
-app.post('/canvas-set', (req, res) => {
+/*app.post('/canvas-set', (req, res) => {
     groupIDs.push(req.body.groupID)
     // console.log(`canvas appointment id set: ${groupIDs}`)
     res.send(req.body)
@@ -53,7 +64,7 @@ app.use('/canvas-get', (req, res) => {
             res.status(400).send({ message: 'error' })
         }
     })).pipe(res)
-})
+})*/
 
 app.get('/open-hours', cors(corsOptions), (req, res) => {
     res.json(openHours)
