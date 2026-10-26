@@ -1,37 +1,37 @@
 [
     {
         "day": "sunday",
-        "open": 12,
-        "close": 16
+        "open": 0,
+        "close": 24
     },
     {
         "day": "monday",
-        "open": 9,
-        "close": 21
+        "open": 10,
+        "close": 20
     },
     {
         "day": "tuesday",
-        "open": 9.5,
-        "close": 21
+        "open": 10,
+        "close": 20
     },
     {
         "day": "wednesday",
-        "open": 9,
-        "close": 21
+        "open": 10,
+        "close": 20
     },
     {
         "day": "thursday",
-        "open": 9.5,
-        "close": 21
+        "open": 10,
+        "close": 20
     },
     {
         "day": "friday",
-        "open": 9,
-        "close": 17
+        "open": 10,
+        "close": 16
     },
     {
         "day": "saturday",
-        "open": 12,
-        "close": 16
+        "open": 10,
+        "close": 14
     }
 ]

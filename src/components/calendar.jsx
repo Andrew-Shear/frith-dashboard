@@ -19,9 +19,6 @@ const class_production = "course_239650"; //frith F26
 
 const class_id = class_production;
 
-const url1 = "http://localhost:3100/canvas-set"
-const url2 = "http://localhost:3100/canvas-get"
-
 const url_group = "http://localhost:3100/canvas-group"
 
 const Calendar = ({ className, data, date, operatingHours }) => {
@@ -45,10 +42,6 @@ const Calendar = ({ className, data, date, operatingHours }) => {
         })
         return () => { cancelled = true } // ignore results from stale refreshes
 }, [data])
-
-    /*useEffect(() => {
-        getAppointments(data, date, 3, setAppointments);
-    }, [data])*/
 
     return (
         <div className={className} ref={ref} id="calendar-main">
@@ -96,44 +89,6 @@ const getAppointments = async (data) => {
     }
 }
 
-
-//returns a dictionary of all the appointments grouped by groupID
-/*const getAppointments = (data, date, numDays, TEST) => {
-    const apptsByGroup = {}
-    data.map((d) => {
-        if (d.context_codes.includes(class_id))
-            if (!(d.id in apptsByGroup))
-                apptsByGroup[d.id] = {} //create a new dictionary entry for this id
-    })
-
-    //make a list of all the group IDs we just got
-    const groupIDs = Object.keys(apptsByGroup)
-    const idCount = groupIDs.length
-
-    groupIDs.forEach(async (id, index) => {
-        const res = await fetch(url1, {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ "groupID": id })
-        })
-
-        fetch(url2).then(res => {
-            return res.json()
-        }).then(data => {
-            apptsByGroup[id] = data.appointments
-
-            //do this once all appointments have been added
-            if (index === idCount - 1) {
-                // console.log(apptsByGroup)
-                // console.log(sortByDays(apptsByGroup, date, 3, TEST))
-                return sortByDays(apptsByGroup, date, 3, TEST)
-            }
-        })
-    })
-
-    return false //failed if we get here
-}*/
-
 /**
  * Returns a dictionary of all meetings belonging to a day
  * @param {*} data - appointments seperated by groupID
@@ -166,13 +121,6 @@ const sortByDays = (data, today, numDays, TEST) => {
             })
         }
     })
-
-    // const test = new Date(today)
-    // test.setDate(test.getDate() + DEBUG_OFFSET)
-    // console.log(test)
-    // console.log(finalArray)
-
-    //TEST(finalArray) //lol I passed the setState function here... shhhhh don't tell my react teacher
 
     return finalArray
 }

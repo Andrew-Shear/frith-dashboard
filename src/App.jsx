@@ -20,7 +20,7 @@ import Torgersen2 from './assets/p1840383511.jpg'
 import WifiError from './assets/wifierror.png'
 
 const refresh_time = 1 //minutes between refreshes
-const abort_time = 3 //minutes before aborting a fetch request
+const abort_time = .5 //minutes before aborting a fetch request
 
 //for testing
 // import PrinterData from './rsc/dummyprinterdata.json'
