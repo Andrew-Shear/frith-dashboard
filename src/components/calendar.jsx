@@ -1,6 +1,5 @@
 /**
  * Fetches trainings from canvas and displays them in wee little windows
- * This component is super jank...
  */
 
 import { useEffect, useState, useRef } from 'react'
@@ -11,9 +10,6 @@ import './css/calendar.css'
 // const DEBUG_OFFSET = -8; //offset for class_ula
 const DEBUG_OFFSET = 0;
 
-const class_old = "course_109922";
-const class_old2 = "course_99575";
-const class_old3 = "course_121352";
 const class_ula = "course_162912"; //test server
 const class_production = "course_239650"; //frith F26
 
@@ -84,9 +80,6 @@ const sortByDays = (data, today, numDays, TEST) => {
     const finalArray = Array.from(Array(numDays), () => new Array())
     const keys = Object.keys(data);
 
-    // console.log(data)
-    // console.log(keys)
-
     keys.forEach((key, index) => {
         // console.log(data[key]);
         if (data[key].length) {
@@ -129,34 +122,23 @@ export default Calendar
 
 //============================================================================
 
-//useful API stuff
-/*
-canvas data, after specifying group id:
-data.appointments[0].available_slots: unreserved spots
-data.appointments[0].participants_per_appointments: total spots
-data.appointments[0].start_at: start time in date object string (east coast?)
-data.appointments[0].end_at: end time in date object string (east coast?)
-*/
-
-//output structure:
+// API endpoint output structure:
 /*
 [
-    { //day 1 all appointments (today)
-        0 : { //one of today's appointments
-            ...
-            title: <title String>
-            start_at: <start Date>
-            end_at: <end Date>
-            available_slots: <empty slots>,
-            participants_per_appointment: <total slots>
-            ...
-        }, 
-        1 : {...},
+    // one individual appointment
+    {
         ...
-    }
-    {//day 2 all appointments (tomorrow)
-        ...
+        "id": <id number>,
+        "start_at": <start Date in ISO 8601 extended format>,
+        "end_at": <start Date in ISO 8601 extended format>,
+        "title": <title String>,
+        "available_slots": <empty slots number>,
+        "participants_per_appointment": <total slots number>,
+        "child_events": [
+          <list of individual participant slots with names of students signed up, if we ever care about that>
+        ]
     },
     ...
 ]
-*/
+
+ */
