@@ -27,7 +27,6 @@ const abort_time = .5 //minutes before aborting a fetch request
 //for testing
 // import PrinterData from './rsc/dummyprinterdata.json'
 // import CapacityData from './rsc/capacity.json'
-// import TrainingsData from './rsc/trainings.json'
 
 function App() {
   const [printData, setPrintData] = useState([])
@@ -81,7 +80,6 @@ function App() {
     })
 
     //fetch tool training appointments data
-    // setTrainingsData(TrainingsData) //dummy data
     fetch("http://localhost:3100/canvas-all",  { signal: AbortSignal.timeout(1000*60*abort_time) }).then(res => {
       if (res.status >= 400) {
         throw new Error("Server responds with error!");
