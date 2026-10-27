@@ -19,8 +19,6 @@ const class_production = "course_239650"; //frith F26
 
 const class_id = class_production;
 
-const url_group = "http://localhost:3100/canvas-group"
-
 const Calendar = ({ className, data, date, operatingHours }) => {
     const [appointments, setAppointments] = useState([])
     const ref = useRef();
@@ -34,14 +32,9 @@ const Calendar = ({ className, data, date, operatingHours }) => {
     catch (e) { }
 
     useEffect(() => {
-        let cancelled = false
-        getAppointments(data).then(byGroup => {
-            if (!cancelled && byGroup) {
-                setAppointments(sortByDays(byGroup, date, 3))
-            }
-        })
-        return () => { cancelled = true } // ignore results from stale refreshes
-}, [data])
+        const slots = data.filter(e => e.appointment_group_id)
+    setAppointments(sortByDays({ all: slots }, date, 3))
+    }, [data, date])
 
     return (
         <div className={className} ref={ref} id="calendar-main">
@@ -69,25 +62,16 @@ const Calendar = ({ className, data, date, operatingHours }) => {
     )
 }
 
-// returns { groupID: [appointments] }, or null if any request failed
-const getAppointments = async (data) => {
-    const ids = [...new Set(
-        data.filter(d => d.context_codes.includes(class_id)).map(d => d.id)
-    )]
-
-    try {
-        const results = await Promise.all(ids.map(async (id) => {
-            const res = await fetch(`${url_group}/${id}`)
-            if (!res.ok) throw new Error(`group ${id} failed`)
-            const json = await res.json()
-            return [id, json.appointments ?? []]
-        }))
-        return Object.fromEntries(results)
-    } catch (e) {
-        console.log(e)
-        return null // keep showing the last good calendar
-    }
+const groupAppointments = (data) => {
+    const byGroup = {}
+    data.forEach(g => {
+        if (g.context_codes.includes(class_id)) {
+            byGroup[g.id] = g.appointments ?? []
+        }
+    })
+    return byGroup
 }
+
 
 /**
  * Returns a dictionary of all meetings belonging to a day

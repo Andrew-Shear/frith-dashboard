@@ -19,12 +19,13 @@ import Clock from './components/clock'
 import Torgersen2 from './assets/p1840383511.jpg'
 import WifiError from './assets/wifierror.png'
 
+import HoursData from './rsc/openhours.json'
+
 const refresh_time = 1 //minutes between refreshes
 const abort_time = .5 //minutes before aborting a fetch request
 
 //for testing
 // import PrinterData from './rsc/dummyprinterdata.json'
-// import HoursData from './rsc/openhours.json'
 // import CapacityData from './rsc/capacity.json'
 // import TrainingsData from './rsc/trainings.json'
 
@@ -32,7 +33,7 @@ function App() {
   const [printData, setPrintData] = useState([])
   const [attendanceData, setAttendanceData] = useState([])
   const [trainingsData, setTrainingsData] = useState([])
-  const [hoursData, setHoursData] = useState([])
+  const [hoursData] = useState(HoursData)
   const [date, setDate] = useState(new Date())
   
   //errors
@@ -77,20 +78,6 @@ function App() {
       setAttendanceError( false )
     }).catch(err => {
       setAttendanceError( true )
-    })
-
-    //fetch opening/closing hours data
-    // setHoursData(HoursData) //dummy data
-    fetch("http://localhost:3100/open-hours",  { signal: AbortSignal.timeout(1000*60*abort_time) }).then(res => {
-      if (res.status >= 400) {
-        throw new Error("Server responds with error!");
-      }
-      return res.json()
-    }).then(data => {
-      setHoursData(data)
-      setHoursError( false )
-    }).catch(err => {
-      setHoursError( true )
     })
 
     //fetch tool training appointments data
