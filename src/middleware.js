@@ -1,7 +1,5 @@
 /**
  * This backend works as a reverse proxy for the frontend
- * This backend is required in order to avoid CORS issues
- * Otherwise I wouldn't have made it...
  */
 
 import express from 'express'
@@ -21,6 +19,7 @@ const corsOptions = {
 app.options('*', cors(corsOptions))
 app.use(cors())
 
+// only need one api call to get the calendar events
 app.use('/canvas-all', cors(corsOptions), (req, res) => {
     const start = new Date(); start.setHours(0, 0, 0, 0)
     const end = new Date(start); end.setDate(end.getDate() + 4)
@@ -36,3 +35,26 @@ app.use('/canvas-all', cors(corsOptions), (req, res) => {
 
 
 app.listen(3100, () => console.log("Hosted middleware on port 3100"))
+
+//============================================================================
+
+// API endpoint output structure:
+/*
+[
+    // one individual appointment
+    {
+        ...
+        "id": <id number>,
+        "start_at": <start Date in ISO 8601 extended format>,
+        "end_at": <start Date in ISO 8601 extended format>,
+        "title": <title String>,
+        "available_slots": <empty slots number>,
+        "participants_per_appointment": <total slots number>,
+        "child_events": [
+          <list of individual participant slots with names of students signed up, if we ever care about that>
+        ]
+    },
+    ...
+]
+
+ */

@@ -119,26 +119,3 @@ const isDate = (dateOther, dateBaseline, offsetDays = 0) => {
 }
 
 export default Calendar
-
-//============================================================================
-
-// API endpoint output structure:
-/*
-[
-    // one individual appointment
-    {
-        ...
-        "id": <id number>,
-        "start_at": <start Date in ISO 8601 extended format>,
-        "end_at": <start Date in ISO 8601 extended format>,
-        "title": <title String>,
-        "available_slots": <empty slots number>,
-        "participants_per_appointment": <total slots number>,
-        "child_events": [
-          <list of individual participant slots with names of students signed up, if we ever care about that>
-        ]
-    },
-    ...
-]
-
- */
