@@ -10,11 +10,6 @@ import './css/calendar.css'
 // const DEBUG_OFFSET = -8; //offset for class_ula
 const DEBUG_OFFSET = 0;
 
-const class_ula = "course_162912"; //test server
-const class_production = "course_239650"; //frith F26
-
-const class_id = class_production;
-
 const Calendar = ({ className, data, date, operatingHours }) => {
     const [appointments, setAppointments] = useState([])
     const ref = useRef();

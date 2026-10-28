@@ -8,6 +8,11 @@ import cors from 'cors'
 
 import apiKeys from './rsc/api_keys.json' with { type: "json" };
 
+const class_ula = "course_162912"; //test server
+const class_production = "course_239650"; //frith F26
+
+const class_id = class_production;
+
 const app = express()
 app.use(express.json())
 
@@ -19,11 +24,12 @@ const corsOptions = {
 app.options('*', cors(corsOptions))
 app.use(cors())
 
+
 // only need one api call to get the calendar events
 app.use('/canvas-all', cors(corsOptions), (req, res) => {
     const start = new Date(); start.setHours(0, 0, 0, 0)
     const end = new Date(start); end.setDate(end.getDate() + 4)
-    const request_url = `https://vt.instructure.com/api/v1/calendar_events?type=event&context_codes[]=course_239650&start_date=${start.toISOString()}&end_date=${end.toISOString()}&per_page=100&access_token=${apiKeys.canvas}`
+    const request_url = `https://vt.instructure.com/api/v1/calendar_events?type=event&context_codes[]=${class_id}&start_date=${start.toISOString()}&end_date=${end.toISOString()}&per_page=100&access_token=${apiKeys.canvas}`
     req.pipe(request(request_url, function (error, response, body) {
         if (error !== null) {
 	        console.log(error)
