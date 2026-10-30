@@ -53,16 +53,6 @@ const Calendar = ({ className, data, date, operatingHours }) => {
     )
 }
 
-const groupAppointments = (data) => {
-    const byGroup = {}
-    data.forEach(g => {
-        if (g.context_codes.includes(class_id)) {
-            byGroup[g.id] = g.appointments ?? []
-        }
-    })
-    return byGroup
-}
-
 
 /**
  * Returns a dictionary of all meetings belonging to a day

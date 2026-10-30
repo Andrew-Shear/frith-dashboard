@@ -53,6 +53,7 @@ function App() {
 
     //fetch 3d printer queue data
     // setPrints(removeEmpties(PrinterData)) //dummy data
+    // this script links to an apps script in the 3d print queue google sheet.
     fetch("https://script.google.com/macros/s/AKfycbyN22oZdeTkunq8VZRNIK8ehjFLZPHbeikhVhzEqe5L7ZJEzlcMTVXuU5R1KMX714J5/exec",  { signal: AbortSignal.timeout(1000*60*abort_time) }).then(res => {
       if (res.status >= 400) {
         throw new Error("Server responds with error!");
@@ -67,6 +68,7 @@ function App() {
 
     //fetch capacity data
     // setCapacityData(CapacityData) //dummy data
+    // the IP is for the kiosk - it uses gunicorn and flask to expose the /attendance endpoint
     fetch("http://192.168.2.102:1254/attendance",  { signal: AbortSignal.timeout(1000*60*abort_time) }).then(res => {
       if (res.status >= 400) {
         throw new Error("Server responds with error!");
@@ -80,6 +82,7 @@ function App() {
     })
 
     //fetch tool training appointments data
+    // connects to middleware backend
     fetch("http://localhost:3100/canvas-all",  { signal: AbortSignal.timeout(1000*60*abort_time) }).then(res => {
       if (res.status >= 400) {
         throw new Error("Server responds with error!");

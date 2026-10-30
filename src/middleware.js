@@ -44,7 +44,7 @@ app.listen(3100, () => console.log("Hosted middleware on port 3100"))
 
 //============================================================================
 
-// API endpoint output structure:
+// calendar_events API call output structure:
 /*
 [
     // one individual appointment
