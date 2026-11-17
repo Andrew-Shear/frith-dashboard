@@ -54,7 +54,7 @@ The frontend is written in React.js, and the structure is as follows:
 
 ### Setup Files
 
-```
+```bash
 git clone https://github.com/Andrew-Shear/frith-dashboard.git
 cd frith-dashboard
 npm i
@@ -67,7 +67,7 @@ npm run build
 * To add your key, first make a new file: `./src/rsc/api_keys.json`
 * Then, copy the following to that file and fill in your API key:
 
-```
+```bash
 {
     "canvas": "YOUR_API_KEY_HERE"
 }
@@ -75,21 +75,21 @@ npm run build
 
 ### Start middleware
 
-```
+```bash
 cd src
 node middleware.js
 ```
 
 ### Start frontend
 
-```
+```bash
 cd frith-dashboard/dist
 python3 -m http.server 8000
 ```
 
 ### Boot chrome
 
-```
+```bash
 chromium-browser --kiosk http://localhost:8000
 ```
 
@@ -122,14 +122,14 @@ If we change our hours edit `src/rsc/openhours.json` with the new hours.
 
 ### Schedule a restart and remove mouse cursor after 10 seconds
 
-```
+```bash
 sudo shutdown -r 8:00
 unclutter -idle 10
 ```
 
 ### Disable screen sleeping
 
-```
+```bash
 xset s off
 xset -dpms s off
 xset dpms 0 0 0
