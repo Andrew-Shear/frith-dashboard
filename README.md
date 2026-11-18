@@ -61,6 +61,8 @@ npm i
 npm run build
 ```
 
+Note: You need to re-run `npm run build` every time you alter the front-end.
+
 ### Add your Canvas API key
 
 * API keys are not stored in this repository, but are required to fetch the FRITH training schedule.
